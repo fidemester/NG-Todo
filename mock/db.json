@@ -1,0 +1,16 @@
+{
+  "todos": [
+    {
+      "todo": "rendrakás",
+      "id": 1
+    },
+    {
+      "todo": "levinni a szemetet",
+      "id": 2
+    },
+    {
+      "todo": "sétálni a Kellyvel",
+      "id": 3
+    }
+  ]
+}

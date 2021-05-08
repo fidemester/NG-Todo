@@ -1,32 +1,57 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {TodoService} from "./todo.service";
 
 @Component({
-  selector: 'todo-root',
-  template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center" class="content">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <span style="display: block">{{ title }} app is running!</span>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    
-  `,
-  styles: []
+    template: `
+        <h1>Ng Todo</h1>
+        <h3>Todo:</h3>
+        <form [formGroup]="myForm" (submit)="onSubmit()">
+            <input type="text" name="text" id="text" (keyup)="onKeyUp($event)" formControlName="todo">
+            <input style="margin-left:20px" type="submit" [disabled]="myForm.invalid">
+        </form>
+        <div class="todo-list">
+            <p style="text-align: center" *ngFor="let todo of todos let i=index">
+                {{i + 1}}. {{todo.todo | titlecase}}
+                <button (click)="deleteTodo(todo.id)">delete</button>
+            </p>
+        </div>`,
+
+    selector: 'todo-root',
+    styleUrls: ['./app.component.css']
+
 })
 export class AppComponent {
-  title = 'ng-todo';
+    todos = [];
+
+    constructor(private todoService: TodoService) {}
+
+    myForm: FormGroup = new FormGroup({
+        todo: new FormControl(null, [Validators.required, Validators.minLength(6)])
+    })
+
+    onSubmit() {
+        console.log(this.myForm.value)
+        this.todoService.postTodo(this.myForm.value).subscribe(todos => {
+            console.log('update', todos);
+            console.log("new todo:", this.todos)
+        })
+        this.myForm.reset()
+    }
+
+    onKeyUp(event: any) {
+        console.log(event.target.value)
+    }
+
+    deleteTodo(index: number) {
+        this.todoService.deleteTodo(index).subscribe(todo => {
+          console.log(todo)
+        })
+    }
+
+    ngOnInit() {
+        this.todoService.getAllTodos().subscribe(todo => {
+            this.todos = todo;
+        })
+    }
 }
