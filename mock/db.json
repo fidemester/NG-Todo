@@ -1,16 +1,28 @@
 {
   "todos": [
     {
-      "todo": "rendrakás",
-      "id": 1
+      "todo": "todos appot megcsinálni",
+      "id": 8
+    },
+    {
+      "todo": "ebédet főzni",
+      "id": 10
     },
     {
       "todo": "levinni a szemetet",
-      "id": 2
+      "id": 11
     },
     {
-      "todo": "sétálni a Kellyvel",
-      "id": 3
+      "todo": "asasasas",
+      "id": 12
+    },
+    {
+      "todo": "levinni a Kellyt",
+      "id": 13
+    },
+    {
+      "todo": "elmenni moziba",
+      "id": 14
     }
   ]
 }

@@ -24,4 +24,7 @@ export class TodoService {
   deleteTodo(id:number): Observable<any> {
     return this.http.delete(TodoService.API_URL+'/'+`${id}`)
   }
+  editTodo(id:number, todo:Todo): Observable<any>{
+    return this.http.put(TodoService.API_URL+'/'+`${id}`,todo)
+  }
 }

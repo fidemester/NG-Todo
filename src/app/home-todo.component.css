@@ -1,0 +1,12 @@
+#text.ng-invalid.ng-touched{
+    border: 2px solid red;
+    outline: 2px solid red
+}
+input.ng-valid{
+    border:2px solid lawngreen;
+    outline:2px solid lawngreen;
+
+}
+div{
+    font-size: 20px;
+}
